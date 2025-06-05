@@ -29,30 +29,31 @@ spec:
     metadata:
       labels:
         app: luanti-val
-    volumes:
-      - name: luanti-val-data
-        persistentVolumeClaim:
-          claimName: luanti-data-pvc-val
-    containers:
-      - name: luanti-val
-        image: lscr.io/linuxserver/luanti:latest
-        env:
-          - name: TZ
-            value: "Europe/Paris"
-          - name: PUID
-            value: "1000"
-          - name: PGID
-            value: "1000"
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "50m"
-        ports:
-          - containerPort: 30000
-            protocol: UDP
-        volumesMounts:
-          - name: luanti-val-data
-            mountPath: /config/.minetest
+    spec:
+      volumes:
+        - name: luanti-val-data
+          persistentVolumeClaim:
+            claimName: luanti-data-pvc-val
+      containers:
+        - name: luanti-val
+          image: lscr.io/linuxserver/luanti:latest
+          env:
+            - name: TZ
+              value: "Europe/Paris"
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+          ports:
+            - containerPort: 30000
+              protocol: UDP
+          volumesMounts:
+            - name: luanti-val-data
+              mountPath: /config/.minetest
 ---
 apiVersion: v1
 kind: Service
