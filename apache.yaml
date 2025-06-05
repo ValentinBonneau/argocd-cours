@@ -1,0 +1,42 @@
+apiVesion: apps/v1
+kind: Deployment
+metadata:
+  name: papache-val
+  namespace: web-val
+  labels:
+    app: papache-val
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: papache-val
+  templates:
+    metadata:
+      labels:
+        app: papache-val
+    spec:
+      containers:
+        - name: papache-val
+          image: httpd:2.4.62-alpine3.21
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "10m"
+          ports:
+            - containerPort: 80
+              protocol: TCP
+---
+apiVesion: v1
+kind: Service
+metadata:
+  name: papache-val-svc
+  namespace: web-val
+spec:
+  type: LoadBalancer
+  ports:
+    - name: web
+      port: 8095
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: papache-val
