@@ -35,7 +35,7 @@ spec:
           claimName: luanti-data-pvc-val
     containers:
       - name: luanti-val
-        image: lscri.io/linuxserver/luanti:latest
+        image: lscr.io/linuxserver/luanti:latest
         env:
           - name: TZ
             value: "Europe/Paris"
