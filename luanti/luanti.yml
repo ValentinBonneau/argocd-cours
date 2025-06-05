@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: luanti-data-pvc-val
+  namespace: games-val
+spec:
+  storageClassName: "local-path"
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: luanti-val
+  namespace: games-val
+  labels:
+    app: luanti-val
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: luanti-val
+  template:
+    metadata:
+      labels:
+        app: luanti-val
+    volumes:
+      - name: luanti-val-data
+        persistentVolumeClaim:
+          claimName: luanti-data-pvc-val
+    containers:
+      - name: luanti-val
+        image: lscri.io/linuxserver/luanti:latest
+        env:
+          - name: TZ
+            value: "Europe/Paris"
+          - name: PUID
+            value: "1000"
+          - name: PGID
+            value: "1000"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+        ports:
+          - containerPort: 30000
+            protocol: UDP
+        volumesMounts:
+          - name: luanti-val-data
+            mountPath: /config/.minetest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: luanti-val-svc
+  namespace: games-val
+spec:
+  type: LoadBalancer
+  ports:
+    - name: ""
+      port: 30001
+      targetPort: 30000
+      protocol: UDP
+  selector:
+    app: luanti-val
+
+
