@@ -10,7 +10,7 @@ spec:
   selector:
     matchLabels:
       app: papache-val
-  templates:
+  template:
     metadata:
       labels:
         app: papache-val
