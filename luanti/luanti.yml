@@ -6,7 +6,7 @@ metadata:
 spec:
   storageClassName: "local-path"
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
@@ -41,6 +41,7 @@ spec:
             - sh
             - -c
             - | 
+              [ -d /config/.minetest/games ] && echo "already present" || mkdir -p /config/.minetest/games
               GDIR=/config/.minetest/games
               echo "cleaning old worlds"
               rm -rf /config/.minetest/worlds/world
