@@ -49,7 +49,7 @@ spec:
               [ -d /config/.minetest/games/ctf ] && exit 0 
               git clone --recursive https://github.com/MT-CTF/capturetheflag /config/.minetest/games/ctf
               echo "coucou"
-          volumesMounts:
+          volumeMounts:
             - name: luanti-val-data
               mountPath: /config/.minetest
       containers:
@@ -71,7 +71,7 @@ spec:
           ports:
             - containerPort: 30000
               protocol: UDP
-          volumesMounts:
+          volumeMounts:
             - name: luanti-val-data
               mountPath: /config/.minetest
 ---
