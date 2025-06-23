@@ -46,7 +46,7 @@ spec:
               rm -rf /config/.minetest/worlds/world
               echo "done"
               [ -d /config/.minetest/games/ctf ] && echo "already exist" || git clone --recursive https://github.com/MT-CTF/capturetheflag $GDIR/ctf
-              echo "done"
+              echo "coucou"
           volumesMounts:
             - name: luanti-val-data
               mountPath: /config/.minetest
