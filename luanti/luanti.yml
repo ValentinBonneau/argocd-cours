@@ -45,7 +45,8 @@ spec:
               echo "cleaning old worlds"
               rm -rf /config/.minetest/worlds/world
               echo "done"
-              [ -d /config/.minetest/games/ctf ] && echo "already exist" || git clone --recursive https://github.com/MT-CTF/capturetheflag $GDIR/ctf
+              [ -d /config/.minetest/games/ctf ] && exit 0 
+              git clone --recursive https://github.com/MT-CTF/capturetheflag /config/.minetest/games/ctf
               echo "coucou"
           volumesMounts:
             - name: luanti-val-data
