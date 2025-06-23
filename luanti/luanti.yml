@@ -34,6 +34,22 @@ spec:
         - name: luanti-val-data
           persistentVolumeClaim:
             claimName: luanti-data-pvc-val
+      initContainers:
+        - name: luanti-git-clone
+          image: alpine/git:2.49.0
+          command:
+            - sh
+            - -c
+            - | 
+              GDIR=/config/.minetest/games
+              echo "cleaning old worlds"
+              rm -rf /config/.minetest/worlds/world
+              echo "done"
+              [ -d /config/.minetest/games/ctf ] && echo "already exist" || git clone --recursive https://github.com/MT-CTF/capturetheflag $GDIR/ctf
+              echo "done"
+          volumesMounts:
+            - name: luanti-val-data
+              mountPath: /config/.minetest
       containers:
         - name: luanti-val
           image: lscr.io/linuxserver/luanti:latest
@@ -44,6 +60,8 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
+            - name: CLI_ARGS
+              value: "--gameid ctf"
           resources:
             requests:
               memory: "64Mi"
